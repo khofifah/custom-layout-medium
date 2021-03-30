@@ -17,7 +17,6 @@ class _EmbedCameraState extends State<EmbedCamera> {
   }
 
   @override
-  // ignore: override_on_non_overriding_member
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
       controller != null
@@ -30,7 +29,7 @@ class _EmbedCameraState extends State<EmbedCamera> {
     final cameras = await availableCameras();
     if (cameras.length > 0) {
       if (cameras.length > 1) {
-        final firstCamera = cameras[1];
+        final firstCamera = cameras.first;
         controller = CameraController(firstCamera, ResolutionPreset.high);
       } else {
         final firstCamera = cameras.first;
@@ -46,27 +45,31 @@ class _EmbedCameraState extends State<EmbedCamera> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final deviceRatio = size.width / size.height;
+    final deviceRatio = size.width;
 
-    return FutureBuilder<void>(
-      future: initializeControllerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          // If the Future is complete, display the preview.
-          return Transform.scale(
+    return Container(
+      height: size.height,
+      child: FutureBuilder<void>(
+        future: initializeControllerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // If the Future is complete, display the preview.
+            return Transform.scale(
               scale: controller.value.aspectRatio / deviceRatio,
               child: Center(
                 child: AspectRatio(
                   aspectRatio: controller.value.aspectRatio,
                   child: CameraPreview(controller), //cameraPreview
                 ),
-              ));
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
+              ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }

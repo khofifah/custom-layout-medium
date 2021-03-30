@@ -57,12 +57,7 @@ class _AddPhotoState extends State<AddPhoto> {
             ElevatedButton(
               child: Text('Tambahkan foto'),
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return pickImage(ImageSource.camera);
-                  },
-                );
+                pickImage(ImageSource.camera);
               },
             ),
           ],

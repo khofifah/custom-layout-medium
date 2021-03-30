@@ -120,7 +120,7 @@ class Sizes {
       allowFontScaling: true,
     );
 
-    FontSize.setScreenAwareFontSize();
+    FontSizes.setScreenAwareFontSize();
 
     /*Padding & Margin Constants*/
 
@@ -184,7 +184,7 @@ class Sizes {
   }
 }
 
-class FontSize {
+class FontSizes {
   static double s7 = 7.0;
   static double s8 = 8.0;
   static double s9 = 9.0;
